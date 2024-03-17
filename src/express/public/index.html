@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reprodução e Download de Áudio ao Vivo</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <audio id="audioPlayer" controls autoplay></audio>
+    <a id="downloadLink" style="display: none;" download="audio.opus">Download Áudio</a>
+
+    <script>
+        // Configuração do WebSocket
+        const socket = io('http://localhost:3000')
+        
+        // Ao receber dados do WebSocket
+        socket.on('audioStream', async (audioData) => {
+            
+            // Reproduzir áudio
+            playAudioChunk(audioData);
+
+            // Permitir o download do áudio
+            allowDownload(audioData);
+        })
+
+        // Função para reproduzir os pedaços de áudio
+        function playAudioChunk(audioData) {
+            const audioPlayer = document.getElementById('audioPlayer');
+            
+            // Converter os dados de áudio recebidos para um Blob
+            const blob = new Blob([audioData], { type: 'audio/mp3' });
+
+            // Criar um URL temporário para o Blob
+            const audioURL = URL.createObjectURL(blob);
+
+            // Atualizar a fonte de áudio do elemento de áudio
+            audioPlayer.src = audioURL;
+        }
+
+        // Função para permitir o download do áudio
+        function allowDownload(audioData) {
+            const downloadLink = document.getElementById('downloadLink');
+            
+            // Converter os dados de áudio recebidos para um Blob
+            const blob = new Blob([audioData], { type: 'audio/mp3' });
+
+            // Criar um URL temporário para o Blob
+            const audioURL = URL.createObjectURL(blob);
+
+            // Atualizar o link de download
+            downloadLink.href = audioURL;
+            downloadLink.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

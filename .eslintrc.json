@@ -1,0 +1,22 @@
+{
+    "env": {
+        "node": true,
+        "es2021": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "quotes": ["error", "single"],
+        "brace-style": "warn",
+        "semi":"off",
+        "camelcase":"warn",
+        "no-duplicate-imports":"warn",
+        "no-extra-semi":"warn"  
+    }
+}
